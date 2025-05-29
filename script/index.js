@@ -55,12 +55,11 @@ class View {
       }
    }
 
-   createButton(text, onClick, ...classes) {
+   createButton(text, onClick) {
       return Builder.tag("button")
           .text(text)
           .handle("click", onClick)
           .attr("title", "Delete from list")
-          .classes(...classes)
           .build();
    }
 
@@ -126,5 +125,5 @@ function addMockData(view) {
 
 document.addEventListener('DOMContentLoaded', () => {
    const view = new View();
-   // addMockData(view);
+   //addMockData(view);
 });
