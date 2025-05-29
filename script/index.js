@@ -51,7 +51,7 @@ class View {
          this.addPerson(addResult.person);
       }
       else {
-         alert(`Errors while adding new person: \n${addResult.errors.join('\n')}`);
+         alert(`Errors: \n${addResult.errors.join('\n')}`);
       }
    }
 
@@ -65,22 +65,26 @@ class View {
    }
 
    addPerson(person) {
+      const li = Builder.tag('li').build();
       const div = Builder.tag('div')
           .add(Builder.tag('span').text(person.printText).build())
           .classes('person-item')
           .build();
       div.appendChild(
-          this.createButton("\u274C", ()=>this.deletePerson(li, person))
+          this.createButton("\u274C", ()=>this.deletePerson(person, () => li.remove()))
       );
-      this.personList.appendChild(Builder.tag('li').add(div).build());
+      this.personList.appendChild(Builder.of(li).add(div).build());
       this.updateStatistics();
       this.clearInputs();
       this.inputDocId.focus();
    }
 
-   deletePerson(element, person) {
+   deletePerson(person, callback) {
       if (this.registry.remove(person)) {
-         element.remove();
+         if (callback && typeof callback === 'function') {
+            callback();
+         }
+         return true;
       }
       this.updateStatistics();
    }
