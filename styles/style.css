@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Znamenny+Musical+Notation&display=swap');
-
+*{
+    box-sizing: border-box;
+}
 body {
     font-family: "Noto Znamenny Musical Notation", Helvetica, sans-serif;
     background-color: rgb(246, 240, 251);

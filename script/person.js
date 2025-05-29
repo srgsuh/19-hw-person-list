@@ -31,6 +31,9 @@ class Person {
 
     validate() {
         const errors = [];
+        if (!this._docId) {
+            errors.push("Document ID is required");
+        }
         if (!this._firstName) {
             errors.push("First name is required");
         }

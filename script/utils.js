@@ -1,8 +1,4 @@
-
 class CheckResult {
-    valid;
-    errors;
-
     constructor(valid = true, errors = []) {
         this.valid = valid;
         this.errors = errors;
@@ -33,10 +29,6 @@ class Statistics {
 }
 
 class AddResult {
-    success;
-    person;
-    errors;
-
     constructor(success, person, errors) {
         this.success = success;
         this.person = person;
@@ -81,6 +73,7 @@ class PersonDate {
         const today = new Date();
         return new Date(today.getFullYear() - PersonDate.MIN_AGE, today.getMonth(), today.getDate());
     }
+
     static format(date) {
         return date.toLocaleDateString('en-US', {
             year: 'numeric',
