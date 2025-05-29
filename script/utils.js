@@ -1,55 +1,91 @@
-/**
- * Represents the result of a validation check, containing validation status and any errors.
- */
+
 class CheckResult {
-    /** @type {boolean} Indicates if the check is valid */
     valid;
-    /** @type {string[]} Array of validation error messages */
     errors;
 
-    /**
-     * Creates a new CheckResult instance
-     * @param {boolean} valid - The validation status
-     * @param {string[]} errors - Array of validation error messages
-     */
-    constructor(valid, errors) {
+    constructor(valid = true, errors = []) {
         this.valid = valid;
         this.errors = errors;
     }
 
     combine(other) {
         if (this.valid && other.valid) {
-            return CheckResult.VALID_RESULT;
+            return this;
         }
-        return new CheckResult(false, this.errors.concat(other.errors));
+        return new CheckResult(false, [...this.errors,...other.errors]);
     }
 
-    /** @type {CheckResult} A predefined valid result with no errors */
-    static VALID_RESULT = new CheckResult(true, []);
+    static get VALID_RESULT() {
+        return new CheckResult(true, []);
+    }
 }
 
 class Statistics {
-    /** @type {number} The number of people in the database */
-    personCount;
-    /** @type {number} The maximum age among all people */
-    maxAge;
-    /** @type {number} The minimum age among all people */
-    minAge;
-    /** @type {number} The average age of all people */
-    averageAge;
-
-    /**
-     * Creates a new Statistics instance
-     * @param {number} personCount - The total number of people
-     * @param {number} maxAge - The maximum age
-     * @param {number} minAge - The minimum age
-     * @param {number} averageAge - The average age
-     */
     constructor(personCount, maxAge, minAge, averageAge) {
         this.personCount = personCount;
         this.maxAge = maxAge;
         this.minAge = minAge;
         this.averageAge = averageAge;
     }
-    static EMPTY = new Statistics(0, 0, 0, 0);
+    static get EMPTY() {
+        return new Statistics(0, 0, 0, 0);
+    }
+}
+
+class AddResult {
+    success;
+    person;
+    errors;
+
+    constructor(success, person, errors) {
+        this.success = success;
+        this.person = person;
+        this.errors = errors;
+    }
+}
+
+class PersonDate {
+    constructor() {}
+    static MIN_AGE = 18;
+    static MIN_BIRTH_DATE = new Date(1900, 0, 1);
+    static MAX_BIRTH_DATE = PersonDate.getMaxDate()
+
+    static validate(date, dateName = 'Date of birth') {
+        const errors = [];
+        if (!date) {
+            errors.push(`${dateName} is required`);
+        }
+        else if (isNaN(date.getTime())) {
+            errors.push(`${dateName} is invalid`);
+        }
+        else if (date < PersonDate.MIN_BIRTH_DATE) {
+            errors.push(`${dateName} must be on or after ${PersonDate.format(PersonDate.MIN_BIRTH_DATE)}`);
+        }
+        else if (date > PersonDate.MAX_BIRTH_DATE) {
+            errors.push(`${dateName} must be on or before ${PersonDate.format(PersonDate.MAX_BIRTH_DATE)}`);
+        }
+        return errors.length === 0? CheckResult.VALID_RESULT: new CheckResult(false, errors);
+    }
+
+    static getAge(birthDay) {
+        const today = new Date();
+        const birthDayThisYear = new Date(today.getFullYear(), birthDay.getMonth(), birthDay.getDate());
+        let years = today.getFullYear() - birthDay.getFullYear();
+        if (birthDayThisYear < today) {
+            years--;
+        }
+        return years;
+    }
+
+    static getMaxDate() {
+        const today = new Date();
+        return new Date(today.getFullYear() - PersonDate.MIN_AGE, today.getMonth(), today.getDate());
+    }
+    static format(date) {
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
 }

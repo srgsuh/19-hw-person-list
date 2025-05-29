@@ -3,15 +3,18 @@ class Registry {
     constructor() {
         this._persons = new Map();
     }
+    get size() {
+        return this._persons.size;
+    }
+    isEmpty() {
+        return this.size === 0;
+    }
     hasId(id) {
         return this._persons.has(id);
     }
-    getById(id) {
-        return this._persons.get(id);
-    }
     remove({docId}) {
-        if (this.hasId(id)) {
-            this._persons.delete(id);
+        if (this.hasId(docId)) {
+            this._persons.delete(docId);
             return true;
         }
         return false;
@@ -25,16 +28,24 @@ class Registry {
         }
         return checkResult;
     }
-    add(person, resolve, reject) {
+    add(person) {
         let validationResult = this.validate(person);
-        if (validationResult.valid) {
-            this._persons.set(person.docId, person);
-            resolve(person);
-            return true;
+        if (!validationResult.valid) {
+            return new AddResult(false, person, validationResult.errors);
         }
-        else {
-            reject(validationResult);
-            return false;
+        this._persons.set(person.docId, person);
+        return new AddResult(true, person, []);
+    }
+    getStatistics() {
+        if (this.isEmpty()) {
+            return Statistics.EMPTY;
         }
+        let min = Number.MAX_SAFE_INTEGER, max = -1, sum = 0;
+        for (let {age} of this._persons.values()) {
+            min = Math.min(min, age);
+            max = Math.max(max, age);
+            sum += age;
+        }
+        return new Statistics(this.size, max, min, sum/this.size);
     }
 }
