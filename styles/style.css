@@ -9,6 +9,10 @@ body {
 }
 h1 {
     margin: 0 auto;
+    text-align: center;
+}
+h2 {
+    text-align: center;
 }
 .main, .header {
     width: 540px;
