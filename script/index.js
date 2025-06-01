@@ -83,9 +83,8 @@ class View {
          if (callback && typeof callback === 'function') {
             callback();
          }
-         return true;
+         this.updateStatistics();
       }
-      this.updateStatistics();
    }
    clearStatistics() {
       while (this.statistics.firstElementChild) {
