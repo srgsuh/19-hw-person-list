@@ -9,7 +9,8 @@ class View {
    btnAddEmployee;
 
    personList;
-   statistics;
+   //statistics;
+   _stats;
 
    registry;
 
@@ -22,8 +23,8 @@ class View {
          document.getElementById("birth-date"),
          document.getElementById("salary"),
       );
+      this._stats = new StatManager(document.getElementById("statistics"));
       this.btnAddEmployee = document.getElementById("person-add");
-      this.statistics = document.getElementById("statistics");
       this.personList = document.getElementById("person-list");
       this.setListeners();
       this.updateStatistics();
@@ -63,7 +64,7 @@ class View {
       return Builder.tag("button")
           .text(text)
           .handle("click", onClick)
-          .attr("title", "Delete from list")
+          .attr("title", "Remove employee")
           .build();
    }
 
@@ -90,27 +91,9 @@ class View {
          this.updateStatistics();
       }
    }
-   clearStatistics() {
-      while (this.statistics.firstElementChild) {
-         this.statistics.firstElementChild.remove();
-      }
-   }
+
    updateStatistics() {
-      this.clearStatistics();
-      const {personCount, maxAge, minAge, averageAge, salary, avgSalary} = this.registry.getStatistics();
-      const minAgeStr = minAge? minAge.toString(): '';
-      const maxAgeStr = maxAge ? maxAge.toString(): '';
-      const averageAgeStr = averageAge? averageAge.toFixed(2): '';
-      const salStr = salary? salary.toString(): '';
-      const avgSalStr = avgSalary? avgSalary.toFixed(2): '';
-      return Builder.of(this.statistics)
-          .add(Builder.tag('p').text(`Minimal age: ${minAgeStr}`).build())
-          .add(Builder.tag('p').text(`Maximal age: ${maxAgeStr}`).build())
-          .add(Builder.tag('p').text(`Average age: ${averageAgeStr}`).build())
-          .add(Builder.tag('p').text(`Total count: ${personCount}`).build())
-          .add(Builder.tag('p').text(`Total salary: ${salStr}`).build())
-          .add(Builder.tag('p').text(`Average salary: ${avgSalStr}`).build())
-          .build();
+      this._stats.updateStats(this.registry.getStatistics());
    }
 }
 
