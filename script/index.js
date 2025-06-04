@@ -1,9 +1,11 @@
 class View {
-   inputDocId;
-   inputFirstName;
-   inputLastName;
-   inputBirthDate;
-   inputSalary;
+   // inputDocId;
+   // inputFirstName;
+   // inputLastName;
+   // inputBirthDate;
+   // inputSalary;
+   _inputManager;
+
    btnAddEmployee;
 
    personList;
@@ -13,11 +15,13 @@ class View {
 
    constructor() {
       this.registry = new Registry();
-      this.inputDocId = document.getElementById("doc-id");
-      this.inputFirstName = document.getElementById("first-name");
-      this.inputLastName = document.getElementById("last-name");
-      this.inputBirthDate = document.getElementById("birth-date");
-      this.inputSalary = document.getElementById("salary");
+      this._inputManager = new InputManager(
+         document.getElementById("doc-id"),
+         document.getElementById("first-name"),
+         document.getElementById("last-name"),
+         document.getElementById("birth-date"),
+         document.getElementById("salary"),
+      );
       this.btnAddEmployee = document.getElementById("person-add");
       this.statistics = document.getElementById("statistics");
       this.personList = document.getElementById("person-list");
@@ -28,30 +32,21 @@ class View {
    setListeners() {
       this.btnAddEmployee.addEventListener("click", this.addOnClick.bind(this));
       document.addEventListener("keydown", (event) => {
-         if (event.key === 'Enter' && event.target === this.inputSalary) {
+         if (event.key === 'Enter' && this._inputManager.confirmEnter(event.target)) {
             this.addOnClick();
          }
       })
    }
 
    clearInputs() {
-      this.inputDocId.value = '';
-      this.inputFirstName.value = '';
-      this.inputLastName.value = '';
-      this.inputBirthDate.value = '';
-      this.inputSalary.value = '';
+      this._inputManager.clear();
    }
 
    addOnClick() {
       try {
          this.btnAddEmployee.disabled = true;
-         const employee = new Employee(
-             this.inputDocId.value,
-             this.inputFirstName.value,
-             this.inputLastName.value,
-             this.inputBirthDate.value,
-             this.inputSalary.value
-         );
+         const formData = this._inputManager.getInputData();
+         const employee = new Employee(formData.docId, formData.firstName, formData.lastName, formData.birthDate, formData.salary);
          const addResult = this.registry.add(employee);
          if (addResult.success) {
             this.addEmployee(addResult.person);
@@ -84,7 +79,7 @@ class View {
       this.personList.appendChild(Builder.of(li).add(div).build());
       this.updateStatistics();
       this.clearInputs();
-      this.inputDocId.focus();
+      this._inputManager.catchFocus();
    }
 
    deleteEmployee(employee, callback) {
@@ -109,9 +104,9 @@ class View {
       const salStr = salary? salary.toString(): '';
       const avgSalStr = avgSalary? avgSalary.toFixed(2): '';
       return Builder.of(this.statistics)
-          .add(Builder.tag('p').text(`Min age: ${minAgeStr}`).build())
-          .add(Builder.tag('p').text(`Max age: ${maxAgeStr}`).build())
-          .add(Builder.tag('p').text(`Average: ${averageAgeStr}`).build())
+          .add(Builder.tag('p').text(`Minimal age: ${minAgeStr}`).build())
+          .add(Builder.tag('p').text(`Maximal age: ${maxAgeStr}`).build())
+          .add(Builder.tag('p').text(`Average age: ${averageAgeStr}`).build())
           .add(Builder.tag('p').text(`Total count: ${personCount}`).build())
           .add(Builder.tag('p').text(`Total salary: ${salStr}`).build())
           .add(Builder.tag('p').text(`Average salary: ${avgSalStr}`).build())
@@ -127,16 +122,12 @@ const mockData = [
 ];
 function addMockData(view) {
    mockData.forEach(dataArr => {
-      [view.inputDocId.value,
-      view.inputFirstName.value,
-      view.inputLastName.value,
-      view.inputBirthDate.value,
-      view.inputSalary.value] = dataArr;
+      view._inputManager._setInputs(new RawInputData(...dataArr));
       view.addOnClick();
-   })
+   });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
    const view = new View();
-   // addMockData(view);
+   addMockData(view);
 });
