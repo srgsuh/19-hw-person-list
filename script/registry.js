@@ -28,6 +28,16 @@ class Registry {
         }
         return checkResult;
     }
+    addRequest(inputData) {
+        return this.add(new Employee(inputData.docId, inputData.firstName, inputData.lastName, inputData.birthDate, inputData.salary));
+    }
+    // add(
+    //     docId,
+    //     firstName,
+    //     lastName,
+    //     birthDate,
+    //     salary
+    //
     add(employee) {
         let validationResult = this.validate(employee);
         if (!validationResult.valid) {

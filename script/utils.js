@@ -31,9 +31,9 @@ class Statistics {
 }
 
 class AddResult {
-    constructor(success, person, errors) {
+    constructor(success, employee, errors) {
         this.success = success;
-        this.person = person;
+        this.person = employee;
         this.errors = errors;
     }
 }
@@ -82,5 +82,12 @@ class PersonDate {
             month: 'long',
             day: 'numeric'
         });
+    }
+}
+
+class DeleteRequest {
+    constructor(dataId, actionId) {
+        this.dataId = dataId;
+        this.actionId = actionId;
     }
 }
