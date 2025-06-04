@@ -17,14 +17,16 @@ class CheckResult {
 }
 
 class Statistics {
-    constructor(personCount, maxAge, minAge, averageAge) {
+    constructor(personCount, maxAge, minAge, averageAge, salary, avgSalary) {
         this.personCount = personCount;
         this.maxAge = maxAge;
         this.minAge = minAge;
         this.averageAge = averageAge;
+        this.salary = salary;
+        this.avgSalary = avgSalary;
     }
     static get EMPTY() {
-        return new Statistics(0, 0, 0, 0);
+        return new Statistics(0, 0, 0, 0, 0,0   );
     }
 }
 

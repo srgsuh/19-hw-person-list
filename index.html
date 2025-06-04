@@ -7,6 +7,7 @@
     <script defer src="script/builder.js"></script>
     <script defer src="script/utils.js"></script>
     <script defer src="script/person.js"></script>
+    <script defer src="script/employee.js"></script>
     <script defer src="script/registry.js"></script>
     <script defer src="script/index.js"></script>
 </head>
@@ -19,19 +20,23 @@
         <h2>Add person</h2>
         <div class = "input-unit">
             <label for="doc-id">Document ID:</label>
-            <input id="doc-id" type="text">
+            <input id="doc-id" type="text" placeholder="Document number">
         </div>
         <div class="input-unit">
             <label for="first-name">First Name:</label>
-            <input id="first-name" type="text">
+            <input id="first-name" type="text" placeholder="First name">
         </div>
         <div class="input-unit">
             <label for="last-name">Last Name:</label>
-            <input id="last-name" type="text">
+            <input id="last-name" type="text" placeholder="Last name">
         </div>
         <div class="input-unit">
             <label for="birth-date">Date of Birth:</label>
             <input id="birth-date" type="date" value="2000-01-01">
+        </div>
+        <div class="input-unit">
+            <label for="salary">Salary:</label>
+            <input id="salary" type="number" placeholder="Monthly payment">
         </div>
         <button id="person-add">Add person</button>
     </div>
@@ -47,6 +52,8 @@
                 Min age
                 Max age
                 Average age
+                Total salary
+                Average salary
                 Total persons
                  -->
             </div>

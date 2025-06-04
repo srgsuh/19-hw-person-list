@@ -11,6 +11,9 @@ class Person {
         this._lastName = lastName? lastName.trim(): null;
         this._birthDate = new Date(birthDate);
     }
+    get birthDate() {
+        return this._birthDate;
+    }
     get docId() {
         return this._docId;
     }
@@ -20,13 +23,14 @@ class Person {
     get lastName() {
         return this._lastName;
     }
-
-    get printText() {
-        return `${this.firstName} ${this.lastName}, age ${this.age}, document ID ${this.docId}`;
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`;
     }
-
+    get printText() {
+        return `${this.fullName}, age ${this.age}, document ID ${this.docId}`;
+    }
     get age() {
-        return PersonDate.getAge(this._birthDate);
+        return PersonDate.getAge(this.birthDate);
     }
 
     validate() {
