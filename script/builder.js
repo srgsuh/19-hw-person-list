@@ -30,6 +30,10 @@ class Builder {
         return new Builder(element);
     }
     static tag(elementTag) {
-        return new Builder(document.createElement(elementTag));
+        const newElement = document.createElement(elementTag);
+        if (newElement instanceof HTMLUnknownElement) {
+            throw new Error(`Unknown element tag ${elementTag}`);
+        }
+        return new Builder(newElement);
     }
 }
