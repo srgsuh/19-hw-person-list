@@ -30,10 +30,11 @@ class Statistics {
     }
 }
 
-class AddResult {
-    constructor(success, employee, errors) {
+class RequestResult {
+    constructor(success, itemId, itemText, errors) {
         this.success = success;
-        this.person = employee;
+        this.itemId = itemId;
+        this.itemText = itemText;
         this.errors = errors;
     }
 }

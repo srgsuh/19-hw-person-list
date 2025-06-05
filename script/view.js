@@ -1,15 +1,12 @@
 class View {
     _inputManager;
-    _stats;
-
-    btnAddEmployee;
-    personList;
-
-    registry;
-    _actionManager;
+    _statManager;
+    _listManager;
+    _onDeleteClick;
+    _btnAddEmployee;
 
     constructor(onAddClick, onDeleteClick) {
-        this.registry = new Registry();
+        this._btnAddEmployee = document.getElementById("person-add");
         this._inputManager = new InputManager(
             document.getElementById("doc-id"),
             document.getElementById("first-name"),
@@ -17,27 +14,14 @@ class View {
             document.getElementById("birth-date"),
             document.getElementById("salary"),
         );
-        this._actionManager = new ActionManager();
-        this._stats = new StatManager(document.getElementById("statistics"));
-        this.btnAddEmployee = document.getElementById("person-add");
-        this.personList = document.getElementById("person-list");
-        this._setListeners(onAddClick);
+        this._statManager = new StatManager(document.getElementById("statistics"));
+        this._listManager = new ListManager(document.getElementById("person-list"));
         this._onDeleteClick = onDeleteClick;
-        this.updateStatistics();
-    }
-
-    setAction(actionId, callback, ...params) {
-        this._actionManager.addAction(actionId, callback, ...params);
-    }
-    executeAction(actionId) {
-        this._actionManager.executeAction(actionId);
-    }
-    removeAction(actionId) {
-        this._actionManager.removeAction(actionId);
+        this._setListeners(onAddClick);
     }
 
     _setListeners(onAddClick) {
-        this.btnAddEmployee.addEventListener("click", onAddClick);
+        this._btnAddEmployee.addEventListener("click", onAddClick);
         document.addEventListener("keydown", (event) => {
             if (event.key === 'Enter' && this._inputManager.confirmEnter(event.target)) {
                 onAddClick();
@@ -53,47 +37,28 @@ class View {
         return this._inputManager.getInputData();
     }
 
-    createButton(text, onClick) {
-        return Builder.tag("button")
-            .text(text)
-            .handle("click", onClick)
-            .attr("title", "Remove employee")
-            .build();
-    }
-
-    onAddEmployee({employee}) {
-        const li = Builder.tag('li').build();
-        const div = Builder.tag('div')
-            .add(Builder.tag('span').text(employee.printText).build())
-            .classes('person-item')
-            .build();
-        div.appendChild(
-            this.createButton("\u274C",
-                ()=> {
-                    this._onDeleteClick(new DeleteRequest(employee.docId, li))
-                }
-            )
-        );
-        this.personList.appendChild(Builder.of(li).add(div).build());
-        this.updateStatistics();
+    onAddSuccess({itemId, itemText}) {
+        this._listManager.add(itemId, itemText, () => this._onDeleteClick(itemId));
         this.clearInputs();
         this._inputManager.catchFocus();
+        return true;
     }
 
-    onRejectEmployee({errors}) {
+    onAddReject({errors}) {
         alert(`Errors: \n${errors.join('\n')}`);
+        return true;
     }
 
-    deleteEmployee(employee, callback) {
-        if (this.registry.remove(employee)) {
-            if (callback && typeof callback === 'function') {
-                callback();
-            }
-            this.updateStatistics();
-        }
+    onDeleteSuccess(itemId) {
+        return this._listManager.remove(itemId);
     }
 
-    updateStatistics() {
-        this._stats.updateStats(this.registry.getStatistics());
+    onDeleteReject(itemId) {
+        console.error(`Employee with ID ${itemId} not found???`);
+        return true;
+    }
+
+    updateStatistics(statObject) {
+        this._statManager.updateStats(statObject);
     }
 }

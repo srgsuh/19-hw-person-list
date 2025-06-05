@@ -26,7 +26,7 @@ class Person {
     get fullName() {
         return `${this.firstName} ${this.lastName}`;
     }
-    get printText() {
+    toString() {
         return `${this.fullName}, age ${this.age}, document ID ${this.docId}`;
     }
     get age() {

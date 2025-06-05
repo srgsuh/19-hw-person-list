@@ -12,6 +12,6 @@ function addMockData(view) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-   const view = new View();
-   addMockData(view);
+   const controller = new Controller();
+   controller.initApp();
 });

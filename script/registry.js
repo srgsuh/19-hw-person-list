@@ -12,7 +12,7 @@ class Registry {
     hasId(id) {
         return this._employees.has(id);
     }
-    remove({docId}) {
+    remove(docId) {
         if (this.hasId(docId)) {
             this._employees.delete(docId);
             return true;
@@ -28,23 +28,14 @@ class Registry {
         }
         return checkResult;
     }
-    addRequest(inputData) {
-        return this.add(new Employee(inputData.docId, inputData.firstName, inputData.lastName, inputData.birthDate, inputData.salary));
-    }
-    // add(
-    //     docId,
-    //     firstName,
-    //     lastName,
-    //     birthDate,
-    //     salary
-    //
+
     add(employee) {
         let validationResult = this.validate(employee);
         if (!validationResult.valid) {
-            return new AddResult(false, employee, validationResult.errors);
+            return new RequestResult(false, employee.docId, '', validationResult.errors);
         }
         this._employees.set(employee.docId, employee);
-        return new AddResult(true, employee, []);
+        return new RequestResult(true, employee.docId, employee.toString(), []);
     }
     getStatistics() {
         if (this.isEmpty()) {

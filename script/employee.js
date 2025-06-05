@@ -8,8 +8,8 @@ class Employee extends Person {
     get salary() {
         return this._salary;
     }
-    get printText() {
-        return `${super.printText}, salary ${this.salary}`;
+    toString() {
+        return `${super.toString()}, salary ${this.salary}`;
     }
     _validateEmployee() {
         const errors = [];

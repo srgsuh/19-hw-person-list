@@ -11,9 +11,11 @@
     <script defer src="script/registry.js"></script>
     <script defer src="script/stat_manager.js"></script>
     <script defer src="script/input_manager.js"></script>
+    <script defer src="script/list_manager.js"></script>
     <script defer src="script/view.js"></script>
     <script defer src="script/controller.js"></script>
     <script defer src="script/index.js"></script>
+
 </head>
 <body>
 <div class ="header">
@@ -40,7 +42,7 @@
         </div>
         <div class="input-unit">
             <label for="salary">Salary:</label>
-            <input id="salary" type="number" placeholder="Monthly payment">
+            <input id="salary" type="number" placeholder="Monthly payment" min = "0">
         </div>
         <button id="person-add">Add person</button>
     </div>
