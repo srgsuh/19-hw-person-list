@@ -6,6 +6,7 @@ class Controller {
         this._view = new View(() => this.onAddClick(), (itemId) => this.onDeleteClick(itemId));
     }
     initApp() {
+        this._view.setListeners();
         this.updateStatistics();
     }
     onAddClick() {

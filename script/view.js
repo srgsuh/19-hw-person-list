@@ -17,16 +17,18 @@ class View {
         this._statManager = new StatManager(document.getElementById("statistics"));
         this._listManager = new ListManager(document.getElementById("person-list"));
         this._onDeleteClick = onDeleteClick;
-        this._setListeners(onAddClick);
+        this._onAddClick = onAddClick;
     }
 
-    _setListeners(onAddClick) {
-        this._btnAddEmployee.addEventListener("click", onAddClick);
-        document.addEventListener("keydown", (event) => {
-            if (event.key === 'Enter' && this._inputManager.confirmEnter(event.target)) {
-                onAddClick();
-            }
-        })
+    setListeners() {
+        this._btnAddEmployee.addEventListener("click", this._onAddClick);
+        document.addEventListener("keydown", (e) => {this.onEnterPress(e)});
+    }
+
+    onEnterPress(event) {
+        if (event.key === 'Enter' && this._inputManager.confirmEnter(event.target)) {
+            this._onAddClick();
+        }
     }
 
     clearInputs() {

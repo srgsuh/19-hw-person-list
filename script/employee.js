@@ -11,7 +11,10 @@ class Employee extends Person {
     toString() {
         return `${super.toString()}, salary ${this.salary}`;
     }
-    _validateEmployee() {
+    validate() {
+        return super.validate().combine(this.validateEmployee());
+    }
+    validateEmployee() {
         const errors = [];
         if (!this._salary) {
             errors.push("Salary is required");
@@ -25,8 +28,5 @@ class Employee extends Person {
             }
         }
         return errors.length === 0? CheckResult.VALID_RESULT: new CheckResult(false, errors);
-    }
-    validate() {
-        return super.validate().combine(this._validateEmployee());
     }
 }

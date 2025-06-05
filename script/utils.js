@@ -10,10 +10,7 @@ class CheckResult {
         }
         return new CheckResult(false, [...this.errors,...other.errors]);
     }
-
-    static get VALID_RESULT() {
-        return new CheckResult(true, []);
-    }
+    static VALID_RESULT = Object.freeze(new CheckResult(true, Object.freeze([])));
 }
 
 class Statistics {
@@ -25,9 +22,7 @@ class Statistics {
         this.salary = salary;
         this.avgSalary = avgSalary;
     }
-    static get EMPTY() {
-        return new Statistics(0, 0, 0, 0, 0,0   );
-    }
+    static EMPTY = Object.freeze(new Statistics(0, 0, 0, 0, 0, 0));
 }
 
 class RequestResult {
