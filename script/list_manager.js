@@ -16,6 +16,7 @@ class ListManager {
         const li = Builder.tag('li')
             .add(
                 Builder.tag('div')
+                    .classes("person-item")
                     .add(Builder.tag('span').text(itemText).build())
                     .add(this.createButton("\u274C", onClick))
                     .build()
