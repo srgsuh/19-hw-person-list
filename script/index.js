@@ -4,14 +4,9 @@ const mockData = [
    ['33333333', 'Pink', 'Floyd', '1964-01-05', 19_800],
    ['44444444', 'Green', 'Day', '1988-02-29', 1_250],
 ];
-function addMockData(view) {
-   mockData.forEach(dataArr => {
-      view._inputManager._setInputs(new RawInputData(...dataArr));
-      view.addOnClick();
-   });
-}
 
 document.addEventListener('DOMContentLoaded', () => {
    const controller = new Controller();
    controller.initApp();
+   //mockData.forEach(arr => controller.addMock(...arr));
 });

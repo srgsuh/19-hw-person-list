@@ -33,6 +33,11 @@ class View {
         this._inputManager.clear();
     }
 
+    setInputs(...args) {
+        console.log('view.setInputs', args);
+        this._inputManager.setInputs(...args);
+    }
+
     provideInputData() {
         return this._inputManager.getInputData();
     }
