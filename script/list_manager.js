@@ -13,15 +13,6 @@ class ListManager {
             .build();
     }
     add(itemId, itemText, onClick ) {
-        // const li = Builder.tag('li').build();
-        // this._itemsById.set(itemId, li);
-        // const div = Builder.tag('div')
-        //     .add(Builder.tag('span').text(itemText).build())
-        //     .classes('person-item')
-        //     .build();
-        // div.appendChild(
-        //     this.createButton("\u274C", onClick)
-        // );
         const li = Builder.tag('li')
             .add(
                 Builder.tag('div')

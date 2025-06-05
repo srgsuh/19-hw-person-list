@@ -85,10 +85,3 @@ class PersonDate {
         });
     }
 }
-
-class DeleteRequest {
-    constructor(dataId, actionId) {
-        this.dataId = dataId;
-        this.actionId = actionId;
-    }
-}

@@ -5,9 +5,6 @@ class StatManager {
     }
     clearStats() {
         this._stats.innerHTML = '';
-        // while (this._stats.firstElementChild) {
-        //     this._stats.firstElementChild.remove();
-        // }
     }
     updateStats({personCount, maxAge, minAge, averageAge, salary, avgSalary}) {
         this.clearStats();
