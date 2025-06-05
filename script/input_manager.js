@@ -23,21 +23,10 @@ class InputManager {
         this._inputs = [inDocId, inFirstName, inLastName, inBirthDate, inSalary];
     }
     clear() {
-        this._inDocId.value = '';
-        this._inFirstName.value = '';
-        this._inLastName.value = '';
-        this._inBirthDate.value = '';
-        this._inSalary.value = '';
+        this.setInputs('', '', '', '', '');
     }
     getInputData() {
-        console.log('InputManager.getInputData', this._inDocId.value, this._inFirstName.value);
-        return new RawInputData(
-            this._inDocId.value,
-            this._inFirstName.value,
-            this._inLastName.value,
-            this._inBirthDate.value,
-            this._inSalary.value,
-        )
+        return this._inputs.map(input => input.value);
     }
     setInputs(...args) {
         console.log('inputManager.setInputs', args);

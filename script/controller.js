@@ -11,7 +11,7 @@ class Controller {
     }
     onAddClick() {
         const inputData = this._view.provideInputData();
-        const addResult = this._registry.add(new Employee(inputData.docId, inputData.firstName, inputData.lastName, inputData.birthDate, inputData.salary));
+        const addResult = this._registry.add(new Employee(...inputData));
         if (addResult.success) {
             this._view.onAddSuccess(addResult);
             this.updateStatistics();
@@ -31,7 +31,6 @@ class Controller {
         this._view.updateStatistics(this._registry.getStatistics());
     }
     addMock(...args) {
-        console.log('controller.addMock', args);
         this._view.setInputs(...args);
         this.onAddClick();
     }

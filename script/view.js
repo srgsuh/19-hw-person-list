@@ -36,7 +36,6 @@ class View {
     }
 
     setInputs(...args) {
-        console.log('view.setInputs', args);
         this._inputManager.setInputs(...args);
     }
 
