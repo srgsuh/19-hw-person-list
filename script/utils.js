@@ -58,7 +58,7 @@ class PersonDate {
     }
 
     static getAge(birthDay) {
-        const today = new Date();
+        const today = PersonDate.today();
         const birthDayThisYear = new Date(today.getFullYear(), birthDay.getMonth(), birthDay.getDate());
         let years = today.getFullYear() - birthDay.getFullYear();
         if (birthDayThisYear < today) {
@@ -67,8 +67,12 @@ class PersonDate {
         return years;
     }
 
+    static today() {
+        return [new Date()].map(d => new Date(d.getFullYear(), d.getMonth(), d.getDate())).pop();
+    }
+
     static getMaxDate() {
-        const today = new Date();
+        const today = PersonDate.today();
         return new Date(today.getFullYear() - PersonDate.MIN_AGE, today.getMonth(), today.getDate());
     }
 
